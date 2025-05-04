@@ -1,11 +1,179 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=\, initial-scale=1.0">
-    <title>Team work<</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Fancy E-Commerce</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f9f9f9;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .products {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 20px;
+    }
+
+    .product {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      padding: 16px;
+      text-align: center;
+      transition: transform 0.2s ease;
+    }
+
+    .product:hover {
+      transform: translateY(-5px);
+    }
+
+    .product img {
+      max-width: 100%;
+      border-radius: 8px;
+      height: 200px;
+      object-fit: cover;
+    }
+
+    .product h3 {
+      margin: 12px 0 8px;
+    }
+
+    .product p {
+      color: #555;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .product button {
+      background-color: #000;
+      color: #fff;
+      padding: 10px 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+
+    .product button:hover {
+      background-color: #444;
+    }
+
+    #cart {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: #fff;
+      padding: 16px;
+      width: 300px;
+      max-height: 90vh;
+      overflow-y: auto;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    }
+
+    #cart h2 {
+      font-size: 20px;
+      margin-bottom: 10px;
+    }
+
+    #cart ul {
+      list-style: none;
+    }
+
+    #cart li {
+      padding: 8px 0;
+      border-bottom: 1px solid #eee;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    #total {
+      font-weight: bold;
+      margin-top: 10px;
+      text-align: right;
+    }
+  </style>
 </head>
 <body>
-   <h1> Git & GitHub</h1> 
+
+<h1>🛍️ Fancy E-Commerce</h1>
+
+<div class="products" id="product-list">
+  <!-- Products will be inserted here -->
+</div>
+
+<div id="cart">
+  <h2>🛒 Cart</h2>
+  <ul id="cart-items"></ul>
+  <div id="total">Total: $0.00</div>
+</div>
+
+<script>
+  const products = [
+    { id: 1, name: "Luxury Watch", price: 199.99, image: "https://source.unsplash.com/random/400x400?watch" },
+    { id: 2, name: "Modern Chair", price: 89.49, image: "https://source.unsplash.com/random/400x400?chair" },
+    { id: 3, name: "Elegant Lamp", price: 59.99, image: "https://source.unsplash.com/random/400x400?lamp" },
+    { id: 4, name: "Wireless Headphones", price: 149.99, image: "https://source.unsplash.com/random/400x400?headphones" },
+    { id: 5, name: "Designer Shoes", price: 129.99, image: "https://source.unsplash.com/random/400x400?shoes" }
+  ];
+
+  const productList = document.getElementById("product-list");
+  const cartItems = document.getElementById("cart-items");
+  const totalDiv = document.getElementById("total");
+
+  let cart = [];
+
+  function renderProducts() {
+    products.forEach(product => {
+      const div = document.createElement("div");
+      div.className = "product";
+      div.innerHTML = `
+        <img src="${product.image}" alt="${product.name}">
+        <h3>${product.name}</h3>
+        <p>$${product.price.toFixed(2)}</p>
+        <button onclick="addToCart(${product.id})">Add to Cart</button>
+      `;
+      productList.appendChild(div);
+    });
+  }
+
+  function addToCart(id) {
+    const product = products.find(p => p.id === id);
+    cart.push(product);
+    updateCart();
+  }
+
+  function updateCart() {
+    cartItems.innerHTML = "";
+    let total = 0;
+    cart.forEach(item => {
+      const li = document.createElement("li");
+      li.innerHTML = `
+        <span>${item.name}</span>
+        <span>$${item.price.toFixed(2)}</span>
+      `;
+      cartItems.appendChild(li);
+      total += item.price;
+    });
+    totalDiv.textContent = `Total: $${total.toFixed(2)}`;
+  }
+
+  renderProducts();
+</script>
+
 </body>
 </html>
